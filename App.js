@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, FlatList} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Alert} from 'react-native';
 import Header from './components/Header';
 import ListItem from './components/ListItem';
 import { v4 as uuidv4 } from 'uuid';
@@ -20,10 +20,20 @@ const App = () => {
     });
   }
 
+  const addItem = (text) => {
+    if(!text) {
+      Alert.alert('Error', 'Please enter an item');
+    } else {
+      setItems(prevItems => {
+        return [{id: uuidv4(), text}, ...prevItems]
+      });
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Header />
-      <AddItem />
+      <AddItem addItem={addItem} />
       <FlatList
         data={items}
         renderItem={({item}) => 
